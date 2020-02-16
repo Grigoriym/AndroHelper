@@ -1,13 +1,16 @@
 package com.grappim.myvpnclient.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.VpnService
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.grappim.myvpnclient.R
 import com.grappim.myvpnclient.utils.ConnectivityNetwork
+import com.grappim.myvpnclient.utils.NetworkChangeReceiver
 import com.grappim.myvpnclient.utils.doOnInternet
 import com.grappim.myvpnclient.utils.setSafeOnClickListener
 import com.grappim.myvpnclient.vpn.MyLocalVpnService
@@ -20,6 +23,19 @@ class MainActivity : AppCompatActivity(), MainContract.View {
   private val presenter: MainPresenter by inject()
   private val connectivityNetwork: ConnectivityNetwork by inject()
 
+  private val networkChangeReceiver = object : NetworkChangeReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+      super.onReceive(context, intent)
+      doOnInternet({
+        refreshData()
+      }, {
+
+      })
+    }
+  }
+  //todo change this
+  private val intentFilterNetwork = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
+
   companion object {
     const val VPN_REQUEST_CODE = 421232
   }
@@ -28,7 +44,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     presenter.setView(this)
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    refreshData()
 
     buttonStart.setSafeOnClickListener {
       doOnInternet({
@@ -38,11 +53,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
       })
     }
     buttonEnd.setSafeOnClickListener {
-      doOnInternet({
-        endVpn()
-      }, {
-
-      })
+      //      doOnInternet({
+      endVpn()
+//      }, {
+//
+//      })
     }
     swipeRefresh.setOnRefreshListener {
       refreshData()
@@ -51,8 +66,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
   }
 
   override fun onResume() {
+    registerReceiver(networkChangeReceiver, intentFilterNetwork)
     super.onResume()
     refreshData()
+  }
+
+  override fun onDestroy() {
+    unregisterReceiver(networkChangeReceiver)
+    super.onDestroy()
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -73,14 +94,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
   private fun refreshData() {
     doOnInternet({
       presenter.getExternalIp()
-      textInternalIp.text = connectivityNetwork.getInternalIpAddress()
-      textGateway.text = connectivityNetwork.getDhcpGateway()
-      textLeaseDuration.text = connectivityNetwork.getDhcpLeaseDuration()
-      textMacAddress.text = connectivityNetwork.getMacAddress()
-      textConnectionType.text = connectivityNetwork.getNetworkClass()
     }, {
       Toast.makeText(this, "Internet not Connected", Toast.LENGTH_SHORT).show()
     })
+    textInternalIp.text = connectivityNetwork.getInternalIpAddress()
+    textGateway.text = connectivityNetwork.getDhcpGateway()
+    textLeaseDuration.text = connectivityNetwork.getDhcpLeaseDuration()
+    textMacAddress.text = connectivityNetwork.getMacAddress()
+    textConnectionType.text = connectivityNetwork.getNetworkClass()
   }
 
   private fun startVpn() {

@@ -9,11 +9,13 @@ import android.text.format.Formatter
 import androidx.core.content.ContextCompat
 import timber.log.Timber
 import java.math.BigInteger
-import java.net.*
+import java.net.Inet4Address
+import java.net.InetAddress
+import java.net.NetworkInterface
 import java.net.NetworkInterface.getNetworkInterfaces
+import java.net.UnknownHostException
 import java.nio.ByteOrder
 import java.util.*
-
 
 class ConnectivityNetwork constructor(private val context: Context) {
 
@@ -21,6 +23,20 @@ class ConnectivityNetwork constructor(private val context: Context) {
     private const val WIFI = "wifi"
     private const val CELLULAR = "cellular"
     private const val NOT_CONNECTED = "not_connected"
+  }
+
+  fun getInternalIpAddress(): String? {
+    return when (getNetworkType()) {
+      WIFI -> {
+        getWifiInternalIpAddress()
+      }
+      CELLULAR -> {
+        getMobileInternalIpAddress()
+      }
+      else -> {
+        NOT_CONNECTED
+      }
+    }
   }
 
   fun getDhcpGateway(): String {
@@ -107,44 +123,13 @@ class ConnectivityNetwork constructor(private val context: Context) {
     return "?"
   }
 
-  private fun getMobileIpAddress(): String? {
-    try {
-      val interfaces: List<NetworkInterface> =
-        Collections.list(getNetworkInterfaces())
-      for (intf in interfaces) {
-        val addrs: List<InetAddress> =
-          Collections.list(intf.inetAddresses)
-        for (addr in addrs) {
-          if (!addr.isLoopbackAddress) {
-            return addr.hostAddress
-          }
-        }
-      }
-    } catch (ex: java.lang.Exception) {
-    }
-    return "0.0.0.0"
-  }
-
   private fun getMobileInternalIpAddress(): String? {
-//    val wifiMgr = getWifiManger()
-//    if (wifiMgr?.isWifiEnabled == true) {
-//      val wifiInfo = wifiMgr.connectionInfo
-//      val ip = wifiInfo.ipAddress
-//      return String.format(
-//        "%d.%d.%d.%d",
-//        ip and 0xff,
-//        ip shr 8 and 0xff,
-//        ip shr 16 and 0xff,
-//        ip shr 24 and 0xff
-//      )
-//    }
     val en = getNetworkInterfaces()
     while (en.hasMoreElements()) {
       val intf = en.nextElement()
       val enumIpAddr = intf.inetAddresses
       while (enumIpAddr.hasMoreElements()) {
         val inetAddress = enumIpAddr.nextElement()
-        //the condition after && is missing in your snippet, checking instance of inetAddress
         if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
           return inetAddress.getHostAddress()
         }
@@ -189,21 +174,7 @@ class ConnectivityNetwork constructor(private val context: Context) {
     return ip
   }
 
-  fun getInternalIpAddress(): String? {
-    return when (getNetworkType()) {
-      WIFI -> {
-        getWifiInternalIpAddress()
-      }
-      CELLULAR -> {
-        getMobileInternalIpAddress()
-      }
-      else -> {
-        NOT_CONNECTED
-      }
-    }
-  }
-
-  fun getNetworkType(): String? {
+  private fun getNetworkType(): String? {
     var networkType: String? = null
     val connectivityManager = getConnectivityManager()
     val activeNetwork = connectivityManager?.activeNetworkInfo
