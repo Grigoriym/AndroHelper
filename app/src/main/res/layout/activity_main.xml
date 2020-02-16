@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".ui.MainActivity">
+
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefresh"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_marginBottom="8dp"
+    app:layout_constraintBottom_toTopOf="@+id/buttonStart"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textInternalIpLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Internal Ip:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textInternalIp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textInternalIpLabel"
+        app:layout_constraintTop_toTopOf="@+id/textInternalIpLabel"
+        tools:text="192.168.0.1" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textExternalIpLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="External Ip:"
+        app:layout_constraintStart_toStartOf="@+id/textInternalIpLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textInternalIpLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textExternalIp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInternalIp"
+        app:layout_constraintStart_toEndOf="@+id/textExternalIpLabel"
+        app:layout_constraintTop_toTopOf="@+id/textExternalIpLabel"
+        tools:text="185.10.120.35" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textMacAddressLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Mac Address:"
+        app:layout_constraintStart_toStartOf="@+id/textExternalIpLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textExternalIpLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textMacAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textExternalIp"
+        app:layout_constraintStart_toEndOf="@+id/textMacAddressLabel"
+        app:layout_constraintTop_toTopOf="@+id/textMacAddressLabel"
+        tools:text="88:23:ff:333:fff3f" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textGatewayLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Gateway"
+        app:layout_constraintStart_toStartOf="@+id/textMacAddressLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textMacAddressLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textGateway"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textMacAddress"
+        app:layout_constraintStart_toEndOf="@+id/textGatewayLabel"
+        app:layout_constraintTop_toTopOf="@+id/textGatewayLabel"
+        tools:text="187.8.8.22" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textConnectionTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Connection Type:"
+        app:layout_constraintStart_toStartOf="@+id/textGatewayLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textGatewayLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textConnectionType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textGateway"
+        app:layout_constraintStart_toEndOf="@+id/textConnectionTypeLabel"
+        app:layout_constraintTop_toTopOf="@+id/textConnectionTypeLabel"
+        tools:text="LTE" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textLeaseDurationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Lease Duration:"
+        app:layout_constraintStart_toStartOf="@+id/textConnectionTypeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textConnectionTypeLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textLeaseDuration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textConnectionType"
+        app:layout_constraintStart_toEndOf="@+id/textLeaseDurationLabel"
+        app:layout_constraintTop_toTopOf="@+id/textLeaseDurationLabel"
+        tools:text="3600" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/buttonStart"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginBottom="8dp"
+    android:text="Start"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/buttonEnd"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent" />
+
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/buttonEnd"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:text="End"
+    app:layout_constraintBottom_toBottomOf="@+id/buttonStart"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toEndOf="@+id/buttonStart"
+    app:layout_constraintTop_toTopOf="@+id/buttonStart" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
