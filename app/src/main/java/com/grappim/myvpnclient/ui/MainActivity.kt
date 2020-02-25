@@ -1,13 +1,18 @@
 package com.grappim.myvpnclient.ui
 
+import android.Manifest
+import android.Manifest.permission_group.LOCATION
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.VpnService
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.grappim.myvpnclient.R
 import com.grappim.myvpnclient.utils.ConnectivityNetwork
 import com.grappim.myvpnclient.utils.NetworkChangeReceiver
@@ -33,7 +38,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
       })
     }
   }
-  //todo change this
   private val intentFilterNetwork = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
 
   companion object {
@@ -47,17 +51,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     buttonStart.setSafeOnClickListener {
       doOnInternet({
-        startVpn()
+        //        startVpn()
       }, {
 
       })
     }
     buttonEnd.setSafeOnClickListener {
-      //      doOnInternet({
-      endVpn()
-//      }, {
-//
-//      })
+      //      endVpn()
     }
     swipeRefresh.setOnRefreshListener {
       refreshData()
@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
   }
 
   override fun onResume() {
+    checkPermissions()
     registerReceiver(networkChangeReceiver, intentFilterNetwork)
     super.onResume()
     refreshData()
@@ -89,19 +90,45 @@ class MainActivity : AppCompatActivity(), MainContract.View {
   }
 
   override fun getExternalIpFailure() {
+    textExternalIp.text = "0"
   }
 
+  private fun checkPermissions() {
+    if (ActivityCompat
+        .checkSelfPermission(
+          this,
+          Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED
+    ) {
+      ActivityCompat.requestPermissions(
+        this,
+        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+        19
+      )
+    } else {
+
+    }
+  }
+
+  @SuppressLint("MissingPermission")
   private fun refreshData() {
     doOnInternet({
       presenter.getExternalIp()
     }, {
+      getExternalIpFailure()
       Toast.makeText(this, "Internet not Connected", Toast.LENGTH_SHORT).show()
     })
+
     textInternalIp.text = connectivityNetwork.getInternalIpAddress()
     textGateway.text = connectivityNetwork.getDhcpGateway()
     textLeaseDuration.text = connectivityNetwork.getDhcpLeaseDuration()
     textMacAddress.text = connectivityNetwork.getMacAddress()
     textConnectionType.text = connectivityNetwork.getNetworkClass()
+
+    textSignal.text = ""
+    textSsid.text = connectivityNetwork.getSsid()
+    textBssid.text = connectivityNetwork.getBssid()
+    textSpeed.text = ""
   }
 
   private fun startVpn() {

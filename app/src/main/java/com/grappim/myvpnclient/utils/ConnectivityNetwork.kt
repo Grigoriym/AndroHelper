@@ -1,21 +1,27 @@
 package com.grappim.myvpnclient.utils
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.DhcpInfo
+import android.net.wifi.SupplicantState
 import android.net.wifi.WifiManager
+import android.telephony.CellInfo
+import android.telephony.CellInfoGsm
 import android.telephony.TelephonyManager
 import android.text.format.Formatter
+import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
 import timber.log.Timber
 import java.math.BigInteger
 import java.net.Inet4Address
 import java.net.InetAddress
-import java.net.NetworkInterface
 import java.net.NetworkInterface.getNetworkInterfaces
 import java.net.UnknownHostException
 import java.nio.ByteOrder
 import java.util.*
+
 
 class ConnectivityNetwork constructor(private val context: Context) {
 
@@ -65,12 +71,9 @@ class ConnectivityNetwork constructor(private val context: Context) {
       val all = Collections.list(getNetworkInterfaces())
       for (nif in all) {
         if (!nif.name.equals("wlan0", ignoreCase = true)) continue
-
         val macBytes = nif.hardwareAddress ?: return ""
-
         val res1 = StringBuilder()
         for (b in macBytes) {
-          //res1.append(Integer.toHexString(b & 0xFF) + ":");
           res1.append(String.format("%02X:", b))
         }
         if (res1.isNotEmpty()) {
@@ -122,6 +125,29 @@ class ConnectivityNetwork constructor(private val context: Context) {
     }
     return "?"
   }
+
+  @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+  fun getSsid(): String? {
+    var ssid = ""
+    val wifiManager = getWifiManger()
+    val wifiInfo = wifiManager?.connectionInfo
+    if (wifiInfo?.supplicantState == SupplicantState.COMPLETED) {
+      ssid = wifiInfo.ssid
+    }
+    return ssid
+  }
+
+  @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+  fun getBssid(): String {
+    var bSsid = ""
+    val wifiManager = getWifiManger()
+    val wifiInfo = wifiManager?.connectionInfo
+    if (wifiInfo?.supplicantState == SupplicantState.COMPLETED) {
+      bSsid = wifiInfo.bssid
+    }
+    return bSsid
+  }
+
 
   private fun getMobileInternalIpAddress(): String? {
     val en = getNetworkInterfaces()
@@ -200,5 +226,8 @@ class ConnectivityNetwork constructor(private val context: Context) {
 
   private fun getConnectivityManager(): ConnectivityManager? =
     ContextCompat.getSystemService(context, ConnectivityManager::class.java)
+
+  private fun getTelephonyManager(): TelephonyManager? =
+    ContextCompat.getSystemService(context, TelephonyManager::class.java)
 
 }

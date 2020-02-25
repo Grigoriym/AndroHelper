@@ -43,7 +43,7 @@ fun Context.doOnInternet(
 
 fun Context.isConnectedNew(): Boolean {
   var result = false
-  val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+  val cm = ContextCompat.getSystemService(this, ConnectivityManager::class.java)
   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
     cm?.run {
       cm.getNetworkCapabilities(cm.activeNetwork)?.run {

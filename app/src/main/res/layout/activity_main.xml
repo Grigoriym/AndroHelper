@@ -13,8 +13,10 @@
     android:layout_marginBottom="8dp"
     app:layout_constraintBottom_toTopOf="@+id/buttonStart"
     app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.0">
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
@@ -84,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Gateway"
+        android:text="Gateway:"
         app:layout_constraintStart_toStartOf="@+id/textMacAddressLabel"
         app:layout_constraintTop_toBottomOf="@+id/textMacAddressLabel" />
 
@@ -135,6 +137,82 @@
         app:layout_constraintStart_toEndOf="@+id/textLeaseDurationLabel"
         app:layout_constraintTop_toTopOf="@+id/textLeaseDurationLabel"
         tools:text="3600" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textSignalLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Signal"
+        app:layout_constraintStart_toStartOf="@+id/textLeaseDurationLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textLeaseDurationLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textSignal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textLeaseDuration"
+        app:layout_constraintStart_toEndOf="@+id/textSignalLabel"
+        app:layout_constraintTop_toTopOf="@+id/textSignalLabel"
+        tools:text="-43dbm" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textSsidLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="SSID"
+        app:layout_constraintStart_toStartOf="@+id/textSignalLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textSignalLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textSsid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textSignal"
+        app:layout_constraintStart_toEndOf="@+id/textSsidLabel"
+        app:layout_constraintTop_toTopOf="@+id/textSsidLabel"
+        tools:text="Wittgenstein" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textBssidLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="BSSID"
+        app:layout_constraintStart_toStartOf="@+id/textSsidLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textSsidLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textBssid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        tools:text="a0:f4:f4:f4:f4"
+        app:layout_constraintEnd_toEndOf="@+id/textSsid"
+        app:layout_constraintStart_toEndOf="@+id/textBssidLabel"
+        app:layout_constraintTop_toTopOf="@+id/textBssidLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textSpeedLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Speed"
+        app:layout_constraintStart_toStartOf="@+id/textBssidLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textBssidLabel" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textSpeed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        tools:text="54 Mbps"
+        app:layout_constraintEnd_toEndOf="@+id/textBssid"
+        app:layout_constraintStart_toEndOf="@+id/textSpeedLabel"
+        app:layout_constraintTop_toTopOf="@+id/textSpeedLabel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
