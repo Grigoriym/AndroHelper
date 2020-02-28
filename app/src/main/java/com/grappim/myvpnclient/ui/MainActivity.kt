@@ -1,7 +1,6 @@
 package com.grappim.myvpnclient.ui
 
 import android.Manifest
-import android.Manifest.permission_group.LOCATION
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -14,10 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.grappim.myvpnclient.R
-import com.grappim.myvpnclient.utils.ConnectivityNetwork
-import com.grappim.myvpnclient.utils.NetworkChangeReceiver
-import com.grappim.myvpnclient.utils.doOnInternet
-import com.grappim.myvpnclient.utils.setSafeOnClickListener
+import com.grappim.myvpnclient.utils.*
 import com.grappim.myvpnclient.vpn.MyLocalVpnService
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
@@ -27,6 +23,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
   private val presenter: MainPresenter by inject()
   private val connectivityNetwork: ConnectivityNetwork by inject()
+  private val dhcpUtils: DhcpUtils by inject()
 
   private val networkChangeReceiver = object : NetworkChangeReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -42,6 +39,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
   companion object {
     const val VPN_REQUEST_CODE = 421232
+    const val LOCATION_PERMISSION_CODE = 9665
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,7 +101,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
       ActivityCompat.requestPermissions(
         this,
         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-        19
+        LOCATION_PERMISSION_CODE
       )
     } else {
 
@@ -120,8 +118,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     })
 
     textInternalIp.text = connectivityNetwork.getInternalIpAddress()
-    textGateway.text = connectivityNetwork.getDhcpGateway()
-    textLeaseDuration.text = connectivityNetwork.getDhcpLeaseDuration()
+    textGateway.text = dhcpUtils.getDhcpGateway()
+    textLeaseDuration.text = dhcpUtils.getDhcpLeaseDuration()
     textMacAddress.text = connectivityNetwork.getMacAddress()
     textConnectionType.text = connectivityNetwork.getNetworkClass()
 
@@ -129,6 +127,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     textSsid.text = connectivityNetwork.getSsid()
     textBssid.text = connectivityNetwork.getBssid()
     textSpeed.text = ""
+
+    textDns1.text = getString(R.string.title_dns_one, dhcpUtils.getDnsOne())
+    textDns2.text = getString(R.string.title_dns_two, dhcpUtils.getDnsTwo())
+    textMask.text = getString(R.string.title_mask, dhcpUtils.getNetmask())
   }
 
   private fun startVpn() {

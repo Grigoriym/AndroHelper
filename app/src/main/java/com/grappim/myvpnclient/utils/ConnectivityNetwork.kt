@@ -1,29 +1,19 @@
 package com.grappim.myvpnclient.utils
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.DhcpInfo
 import android.net.wifi.SupplicantState
-import android.net.wifi.WifiManager
-import android.telephony.CellInfo
-import android.telephony.CellInfoGsm
 import android.telephony.TelephonyManager
 import android.text.format.Formatter
 import androidx.annotation.RequiresPermission
-import androidx.core.content.ContextCompat
-import timber.log.Timber
-import java.math.BigInteger
+import com.grappim.myvpnclient.core.extensions.getConnectivityManager
+import com.grappim.myvpnclient.core.extensions.getWifiManager
 import java.net.Inet4Address
-import java.net.InetAddress
 import java.net.NetworkInterface.getNetworkInterfaces
-import java.net.UnknownHostException
-import java.nio.ByteOrder
 import java.util.*
 
-
-class ConnectivityNetwork constructor(private val context: Context) {
+class ConnectivityNetwork internal constructor(private val context: Context) {
 
   companion object {
     private const val WIFI = "wifi"
@@ -43,27 +33,6 @@ class ConnectivityNetwork constructor(private val context: Context) {
         NOT_CONNECTED
       }
     }
-  }
-
-  fun getDhcpGateway(): String {
-    var ipAddress = getDhcpInfo().gateway
-    ipAddress =
-      if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
-        Integer.reverseBytes(ipAddress)
-      else ipAddress
-    val ipAddressByte =
-      BigInteger.valueOf(ipAddress.toLong()).toByteArray()
-    try {
-      val myAddr = InetAddress.getByAddress(ipAddressByte) as InetAddress
-      return myAddr.hostAddress
-    } catch (e: UnknownHostException) {
-      Timber.d("Error getting Dhcp Gateway IP address ")
-    }
-    return "0.0.0.0"
-  }
-
-  fun getDhcpLeaseDuration(): String {
-    return getDhcpInfo().leaseDuration.toString()
   }
 
   fun getMacAddress(): String {
@@ -88,7 +57,7 @@ class ConnectivityNetwork constructor(private val context: Context) {
 
   @Deprecated("Refactor it")
   fun getNetworkClass(): String? {
-    val info = getConnectivityManager()?.activeNetworkInfo
+    val info = context.getConnectivityManager()?.activeNetworkInfo
     if (info == null || !info.isConnected) return "-" // not connected
     if (info.type == ConnectivityManager.TYPE_WIFI) return "WIFI"
     if (info.type == ConnectivityManager.TYPE_MOBILE) {
@@ -129,7 +98,7 @@ class ConnectivityNetwork constructor(private val context: Context) {
   @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
   fun getSsid(): String? {
     var ssid = ""
-    val wifiManager = getWifiManger()
+    val wifiManager = context.getWifiManager()
     val wifiInfo = wifiManager?.connectionInfo
     if (wifiInfo?.supplicantState == SupplicantState.COMPLETED) {
       ssid = wifiInfo.ssid
@@ -140,7 +109,7 @@ class ConnectivityNetwork constructor(private val context: Context) {
   @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
   fun getBssid(): String {
     var bSsid = ""
-    val wifiManager = getWifiManger()
+    val wifiManager = context.getWifiManager()
     val wifiInfo = wifiManager?.connectionInfo
     if (wifiInfo?.supplicantState == SupplicantState.COMPLETED) {
       bSsid = wifiInfo.bssid
@@ -167,7 +136,7 @@ class ConnectivityNetwork constructor(private val context: Context) {
   private fun getWifiInternalIpAddress(): String? {
     var ip = ""
     try {
-      val wm = getWifiManger()
+      val wm = context.getWifiManager()
       ip = Formatter.formatIpAddress(wm?.connectionInfo?.ipAddress!!)
     } catch (e: java.lang.Exception) {
 
@@ -202,7 +171,7 @@ class ConnectivityNetwork constructor(private val context: Context) {
 
   private fun getNetworkType(): String? {
     var networkType: String? = null
-    val connectivityManager = getConnectivityManager()
+    val connectivityManager = context.getConnectivityManager()
     val activeNetwork = connectivityManager?.activeNetworkInfo
     if (activeNetwork != null) { // connected to the internet
       if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
@@ -215,19 +184,5 @@ class ConnectivityNetwork constructor(private val context: Context) {
     }
     return networkType
   }
-
-  private fun getDhcpInfo(): DhcpInfo {
-    val manager = getWifiManger()
-    return manager?.dhcpInfo as DhcpInfo
-  }
-
-  private fun getWifiManger(): WifiManager? =
-    ContextCompat.getSystemService(context, WifiManager::class.java)
-
-  private fun getConnectivityManager(): ConnectivityManager? =
-    ContextCompat.getSystemService(context, ConnectivityManager::class.java)
-
-  private fun getTelephonyManager(): TelephonyManager? =
-    ContextCompat.getSystemService(context, TelephonyManager::class.java)
 
 }

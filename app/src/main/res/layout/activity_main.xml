@@ -214,6 +214,36 @@
         app:layout_constraintStart_toEndOf="@+id/textSpeedLabel"
         app:layout_constraintTop_toTopOf="@+id/textSpeedLabel" />
 
+      <TextView
+        android:id="@+id/textDns1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textSpeed"
+        app:layout_constraintStart_toStartOf="@+id/textSpeedLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textSpeedLabel"
+        tools:text="81.81.2.2." />
+
+      <TextView
+        android:id="@+id/textDns2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textDns1"
+        app:layout_constraintStart_toStartOf="@+id/textDns1"
+        app:layout_constraintTop_toBottomOf="@+id/textDns1"
+        tools:text="81.23.22.2" />
+
+      <TextView
+        android:id="@+id/textMask"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textDns2"
+        app:layout_constraintStart_toStartOf="@+id/textDns2"
+        app:layout_constraintTop_toBottomOf="@+id/textDns2"
+        tools:text="0.0.0.0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
