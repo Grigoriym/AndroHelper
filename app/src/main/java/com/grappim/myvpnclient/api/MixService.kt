@@ -10,7 +10,7 @@ class MixService(
 
   private val mixApi by lazy { retrofit.create(MixApi::class.java) }
 
-  override fun getExternalIp(format: String): Single<IpEntity> =
+  override fun getExternalIp(apiKey: String, format: String): Single<IpEntity> =
     mixApi.getExternalIp()
 
 }

@@ -23,15 +23,13 @@ class MainPresenter : MainContract.Presenter, KoinComponent {
     disposable.clear()
   }
 
-  override fun getExternalIp() {
+  override fun getFullIpInformation() {
     disposable.add(
       service.getExternalIp()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
-          it.ip?.let { ip ->
-            mView?.getExternalIpSuccess(ip)
-          }
+          mView?.getFullIpInformationSuccess(it)
         }, {
           it.printStackTrace()
         })

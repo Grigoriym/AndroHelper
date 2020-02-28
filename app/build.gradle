@@ -25,8 +25,19 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            buildConfigField 'String', "IpifyApiKey", ipify_api_key
+
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            versionNameSuffix "-release"
+            applicationIdSuffix ".release"
+        }
+        debug {
+            buildConfigField 'String', "IpifyApiKey", ipify_api_key
+
+            minifyEnabled false
+            versionNameSuffix "-debug"
+            applicationIdSuffix ".debug"
         }
     }
     kotlinOptions {

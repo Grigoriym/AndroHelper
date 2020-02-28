@@ -4,5 +4,11 @@
   <string name="title_dns_one">DNS (1) address: %1$s</string>
   <string name="title_dns_two">DNS (2) address: %1$s</string>
   <string name="title_mask">Mask: %1$s</string>
+  <string name="title_city">City: %1$s</string>
+  <string name="title_region">Region: %1$s</string>
+  <string name="title_country">Country: %1$s</string>
+  <string name="title_longitude">Longitude: %1$s</string>
+  <string name="title_latitude">Latitude: %1$s</string>
+  <string name="title_isp">ISP: %1$s</string>
 
 </resources>

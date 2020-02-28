@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.grappim.myvpnclient.R
+import com.grappim.myvpnclient.entities.IpEntity
 import com.grappim.myvpnclient.utils.*
 import com.grappim.myvpnclient.vpn.MyLocalVpnService
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,11 +29,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
   private val networkChangeReceiver = object : NetworkChangeReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
       super.onReceive(context, intent)
-      doOnInternet({
-        refreshData()
-      }, {
-
-      })
+//      doOnInternet({
+//        refreshData()
+//      }, {
+//
+//      })
     }
   }
   private val intentFilterNetwork = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
@@ -83,11 +84,17 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
   }
 
-  override fun getExternalIpSuccess(ip: String) {
-    textExternalIp.text = ip
+  override fun getFullIpInformationSuccess(ipEntity: IpEntity) {
+    textExternalIp.text = ipEntity.ip
+    textCity.text = getString(R.string.title_city, ipEntity.location?.city)
+    textRegion.text = getString(R.string.title_region, ipEntity.location?.region)
+    textCountry.text = getString(R.string.title_country, ipEntity.location?.country)
+    textLatitude.text = getString(R.string.title_latitude, ipEntity.location?.lat?.toString())
+    textLongitude.text = getString(R.string.title_longitude, ipEntity.location?.lng?.toString())
+    textIsp.text = getString(R.string.title_isp, ipEntity.isp)
   }
 
-  override fun getExternalIpFailure() {
+  override fun getFullIpInformationFailure() {
     textExternalIp.text = "0"
   }
 
@@ -111,9 +118,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
   @SuppressLint("MissingPermission")
   private fun refreshData() {
     doOnInternet({
-      presenter.getExternalIp()
+      presenter.getFullIpInformation()
     }, {
-      getExternalIpFailure()
+      getFullIpInformationFailure()
       Toast.makeText(this, "Internet not Connected", Toast.LENGTH_SHORT).show()
     })
 

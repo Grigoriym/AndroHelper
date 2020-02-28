@@ -16,7 +16,7 @@ val mixModule = module {
   }
   single(named("retrofit")) {
     createRetrofit(
-      "https://api.ipify.org/",
+      "https://geo.ipify.org/",
       get(named("client"))
     )
   }
