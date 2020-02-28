@@ -16,25 +16,14 @@ class DhcpUtils internal constructor(private val context: Context) {
 
   fun getNetmask(): String = intToInetAddress(context.getDhcpInfo().netmask)
 
-  /**
-   * Only for testing different approaches to get gateway
-   */
-  fun getDhcpGateway(): String {
-    val first = getDhcpGatewayFirst()
-    val second = getDhcpGatewaySecond()
-    return if (first == second) {
-      first
-    } else {
-      "$first / $second"
-    }
-  }
+  fun getDhcpGateway(): String = intToInetAddress(context.getDhcpInfo().gateway)
 
   fun getDhcpLeaseDuration(): String = context.getDhcpInfo().leaseDuration.toString()
 
   /**
    * https://stackoverflow.com/questions/12001449/how-to-obtain-the-ip-address-of-the-connected-wifi-router-in-android-programmati
    */
-  private fun getDhcpGatewayFirst(): String {
+  private fun getDhcpGatewayTest(): String {
     var ipAddress = context.getDhcpInfo().gateway
     ipAddress =
       if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
@@ -43,15 +32,12 @@ class DhcpUtils internal constructor(private val context: Context) {
     val ipAddressByte =
       BigInteger.valueOf(ipAddress.toLong()).toByteArray()
     try {
-      val myAddr = InetAddress.getByAddress(ipAddressByte) as InetAddress
-      return myAddr.hostAddress
+      return InetAddress.getByAddress(ipAddressByte).hostAddress
     } catch (e: UnknownHostException) {
       Timber.d("Error getting Dhcp Gateway IP address ")
     }
     return "0.0.0.0"
   }
-
-  private fun getDhcpGatewaySecond(): String = intToInetAddress(context.getDhcpInfo().gateway)
 
   /**
    * https://stackoverflow.com/questions/5387036/programmatically-getting-the-gateway-and-subnet-mask-details
@@ -72,5 +58,4 @@ class DhcpUtils internal constructor(private val context: Context) {
       "0.0.0.0"
     }
   }
-
 }
