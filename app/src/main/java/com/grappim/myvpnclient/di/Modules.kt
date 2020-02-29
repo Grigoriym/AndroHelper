@@ -6,6 +6,7 @@ import com.grappim.myvpnclient.api.createRetrofit
 import com.grappim.myvpnclient.ui.MainPresenter
 import com.grappim.myvpnclient.utils.ConnectivityNetwork
 import com.grappim.myvpnclient.utils.DhcpUtils
+import com.grappim.myvpnclient.utils.WifiUtils
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -26,4 +27,5 @@ val mixModule = module {
 
   single { ConnectivityNetwork(androidContext()) }
   single { DhcpUtils(androidContext()) }
+  single { WifiUtils(androidContext()) }
 }

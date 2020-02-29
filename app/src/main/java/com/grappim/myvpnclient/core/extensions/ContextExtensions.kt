@@ -16,4 +16,4 @@ fun Context.getConnectivityManager(): ConnectivityManager? =
 fun Context.getTelephonyManager(): TelephonyManager? =
   ContextCompat.getSystemService(this, TelephonyManager::class.java)
 
-fun Context.getDhcpInfo(): DhcpInfo = this.getWifiManager()?.dhcpInfo as DhcpInfo
+fun Context.getDhcpInfo(): DhcpInfo? = this.getWifiManager()?.dhcpInfo

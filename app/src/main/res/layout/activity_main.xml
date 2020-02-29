@@ -130,7 +130,7 @@
           android:layout_marginTop="8dp"
           android:text="Lease Duration:"
           app:layout_constraintStart_toStartOf="@+id/textConnectionTypeLabel"
-          app:layout_constraintTop_toBottomOf="@+id/textConnectionTypeLabel" />
+          app:layout_constraintTop_toBottomOf="@+id/textType" />
 
         <androidx.appcompat.widget.AppCompatTextView
           android:id="@+id/textLeaseDuration"
@@ -225,7 +225,7 @@
           android:layout_marginTop="8dp"
           app:layout_constraintEnd_toEndOf="@+id/textSpeed"
           app:layout_constraintStart_toStartOf="@+id/textSpeedLabel"
-          app:layout_constraintTop_toBottomOf="@+id/textSpeedLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textFrequency"
           tools:text="Dns 1: 81.81.2.2." />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -307,6 +307,27 @@
           app:layout_constraintStart_toStartOf="@+id/textLongitude"
           app:layout_constraintTop_toBottomOf="@+id/textLongitude"
           tools:text="ISP: test" />
+
+        <TextView
+          android:id="@+id/textType"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Type: "
+          app:layout_constraintEnd_toEndOf="@+id/textConnectionType"
+          app:layout_constraintStart_toStartOf="@+id/textConnectionTypeLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textConnectionTypeLabel"
+          tools:text="Type: WIfi" />
+
+        <TextView
+          android:id="@+id/textFrequency"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Frequency:"
+          app:layout_constraintEnd_toEndOf="@+id/textSpeed"
+          app:layout_constraintStart_toStartOf="@+id/textSpeedLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textSpeedLabel" />
 
       </androidx.constraintlayout.widget.ConstraintLayout>
 

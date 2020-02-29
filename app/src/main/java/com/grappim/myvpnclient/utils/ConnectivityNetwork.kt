@@ -1,12 +1,9 @@
 package com.grappim.myvpnclient.utils
 
-import android.Manifest
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.wifi.SupplicantState
 import android.telephony.TelephonyManager
 import android.text.format.Formatter
-import androidx.annotation.RequiresPermission
 import com.grappim.myvpnclient.core.extensions.getConnectivityManager
 import com.grappim.myvpnclient.core.extensions.getWifiManager
 import java.net.Inet4Address
@@ -94,29 +91,6 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
     }
     return "?"
   }
-
-  @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-  fun getSsid(): String? {
-    var ssid = ""
-    val wifiManager = context.getWifiManager()
-    val wifiInfo = wifiManager?.connectionInfo
-    if (wifiInfo?.supplicantState == SupplicantState.COMPLETED) {
-      ssid = wifiInfo.ssid
-    }
-    return ssid
-  }
-
-  @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-  fun getBssid(): String {
-    var bSsid = ""
-    val wifiManager = context.getWifiManager()
-    val wifiInfo = wifiManager?.connectionInfo
-    if (wifiInfo?.supplicantState == SupplicantState.COMPLETED) {
-      bSsid = wifiInfo.bssid
-    }
-    return bSsid
-  }
-
 
   private fun getMobileInternalIpAddress(): String? {
     val en = getNetworkInterfaces()

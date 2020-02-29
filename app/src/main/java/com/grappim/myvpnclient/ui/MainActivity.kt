@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.grappim.myvpnclient.R
+import com.grappim.myvpnclient.core.extensions.getWifiManager
 import com.grappim.myvpnclient.entities.IpEntity
 import com.grappim.myvpnclient.utils.*
 import com.grappim.myvpnclient.vpn.MyLocalVpnService
@@ -23,8 +24,10 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity(), MainContract.View {
 
   private val presenter: MainPresenter by inject()
+
   private val connectivityNetwork: ConnectivityNetwork by inject()
   private val dhcpUtils: DhcpUtils by inject()
+  private val wifiUtils: WifiUtils by inject()
 
   private val networkChangeReceiver = object : NetworkChangeReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -129,11 +132,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     textLeaseDuration.text = dhcpUtils.getDhcpLeaseDuration()
     textMacAddress.text = connectivityNetwork.getMacAddress()
     textConnectionType.text = connectivityNetwork.getNetworkClass()
+    textType.text = "Type: "
 
     textSignal.text = ""
-    textSsid.text = connectivityNetwork.getSsid()
-    textBssid.text = connectivityNetwork.getBssid()
-    textSpeed.text = ""
+    textSsid.text = wifiUtils.getSsid()
+    textBssid.text = wifiUtils.getBssid()
+    textSpeed.text = wifiUtils.getLinkSpeed()
+    textFrequency.text = "Frequency: ${wifiUtils.getFrequency()}"
 
     textDns1.text = getString(R.string.title_dns_one, dhcpUtils.getDnsOne())
     textDns2.text = getString(R.string.title_dns_two, dhcpUtils.getDnsTwo())
