@@ -138,8 +138,8 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
     return ip
   }
 
-  private fun getNetworkType(): String? {
-    var networkType: String? = null
+  private fun getNetworkType(): String {
+    var networkType: String = NOT_CONNECTED
     val connectivityManager = context.getConnectivityManager()
     val activeNetwork = connectivityManager?.activeNetworkInfo
     if (activeNetwork != null) { // connected to the internet
