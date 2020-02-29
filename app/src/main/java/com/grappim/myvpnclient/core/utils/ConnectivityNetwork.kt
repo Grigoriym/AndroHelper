@@ -2,6 +2,8 @@ package com.grappim.myvpnclient.core.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.telephony.TelephonyManager
 import android.text.format.Formatter
 import com.grappim.myvpnclient.core.extensions.getConnectivityManager
@@ -14,6 +16,7 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
   companion object {
     private const val WIFI = "wifi"
     private const val CELLULAR = "cellular"
+    private const val ETHERNET = "ethernet"
     private const val NOT_CONNECTED = "not_connected"
   }
 
@@ -138,17 +141,35 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
     return ip
   }
 
+  @Suppress("DEPRECATION")
   private fun getNetworkType(): String {
     var networkType: String = NOT_CONNECTED
-    val activeNetwork = context.getConnectivityManager()?.activeNetworkInfo
-    if (activeNetwork != null) {
-      if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
-        networkType = WIFI
-      } else if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE) {
-        networkType = CELLULAR
+    val cm = context.getConnectivityManager()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      val an = cm?.activeNetwork
+      an?.let {
+        val nc = cm.getNetworkCapabilities(it) ?: return NOT_CONNECTED
+        networkType = when {
+          nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> WIFI
+          nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> CELLULAR
+          nc.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> ETHERNET
+          else -> NOT_CONNECTED
+        }
+      } ?: let {
+        return NOT_CONNECTED
       }
     } else {
-      networkType = NOT_CONNECTED
+      val activeNetwork = context.getConnectivityManager()?.activeNetworkInfo
+      networkType = if (activeNetwork != null) {
+        when (activeNetwork.type) {
+          ConnectivityManager.TYPE_WIFI -> WIFI
+          ConnectivityManager.TYPE_MOBILE -> CELLULAR
+          ConnectivityManager.TYPE_ETHERNET -> ETHERNET
+          else -> NOT_CONNECTED
+        }
+      } else {
+        NOT_CONNECTED
+      }
     }
     return networkType
   }
