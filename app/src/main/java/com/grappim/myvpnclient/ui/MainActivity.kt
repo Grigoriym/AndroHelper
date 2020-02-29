@@ -1,81 +1,53 @@
 package com.grappim.myvpnclient.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.VpnService
 import android.os.Bundle
-import android.widget.Toast
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
 import com.grappim.myvpnclient.R
-import com.grappim.myvpnclient.entities.IpEntity
-import com.grappim.myvpnclient.core.utils.*
 import com.grappim.myvpnclient.vpn.MyLocalVpnService
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), MainContract.View {
-
-  private val presenter: MainPresenter by inject()
-
-  private val connectivityNetwork: ConnectivityNetwork by inject()
-  private val dhcpUtils: DhcpUtils by inject()
-  private val wifiUtils: WifiUtils by inject()
-
-  private val networkChangeReceiver = object : NetworkChangeReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
-      super.onReceive(context, intent)
-//      doOnInternet({
-//        refreshData()
-//      }, {
-//
-//      })
-    }
-  }
-  private val intentFilterNetwork = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
+class MainActivity : AppCompatActivity(), MainContract.View,
+  NavigationView.OnNavigationItemSelectedListener {
 
   companion object {
     const val VPN_REQUEST_CODE = 421232
     const val LOCATION_PERMISSION_CODE = 9665
   }
 
+  private lateinit var navController: NavController
+  private lateinit var appBarConfiguration: AppBarConfiguration
+
+  private val presenter: MainPresenter by inject()
+
   override fun onCreate(savedInstanceState: Bundle?) {
     presenter.setView(this)
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-
-    buttonStart.setSafeOnClickListener {
-      doOnInternet({
-        //        startVpn()
-      }, {
-
-      })
-    }
-    buttonEnd.setSafeOnClickListener {
-      //      endVpn()
-    }
-    swipeRefresh.setOnRefreshListener {
-      refreshData()
-      swipeRefresh.isRefreshing = false
-    }
+    setupNavigation()
+    initViews()
   }
 
   override fun onResume() {
     checkPermissions()
-    registerReceiver(networkChangeReceiver, intentFilterNetwork)
     super.onResume()
-    refreshData()
-  }
-
-  override fun onDestroy() {
-    unregisterReceiver(networkChangeReceiver)
-    super.onDestroy()
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -86,18 +58,21 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
   }
 
-  override fun getFullIpInformationSuccess(ipEntity: IpEntity) {
-    textExternalIp.text = ipEntity.ip
-    textCity.text = getString(R.string.title_city, ipEntity.location?.city)
-    textRegion.text = getString(R.string.title_region, ipEntity.location?.region)
-    textCountry.text = getString(R.string.title_country, ipEntity.location?.country)
-    textLatitude.text = getString(R.string.title_latitude, ipEntity.location?.lat?.toString())
-    textLongitude.text = getString(R.string.title_longitude, ipEntity.location?.lng?.toString())
-    textIsp.text = getString(R.string.title_isp, ipEntity.isp)
+  override fun onBackPressed() {
+    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+      drawerLayout.closeDrawer(GravityCompat.START)
+    } else {
+      super.onBackPressed()
+    }
   }
 
-  override fun getFullIpInformationFailure() {
-    textExternalIp.text = "0"
+  override fun onSupportNavigateUp() =
+    findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)
+
+  override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    item.isChecked = true
+    drawerLayout.closeDrawers()
+    return displaySelectedScreen(item.itemId)
   }
 
   private fun checkPermissions() {
@@ -117,32 +92,30 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
   }
 
-  @SuppressLint("MissingPermission")
-  private fun refreshData() {
-    doOnInternet({
-      presenter.getFullIpInformation()
-    }, {
-      getFullIpInformationFailure()
-      Toast.makeText(this, "Internet not Connected", Toast.LENGTH_SHORT).show()
-    })
+  private fun displaySelectedScreen(itemId: Int): Boolean {
+    when (itemId) {
+      R.id.navMenuNetworkInfo -> navController.navigate(R.id.navNetworkInfoFragment)
+    }
+    drawerLayout.closeDrawer(GravityCompat.START)
+    return true
+  }
 
-    textInternalIp.text = connectivityNetwork.getInternalIpAddress()
-    textGateway.text = dhcpUtils.getDhcpGateway()
-    textLeaseDuration.text = dhcpUtils.getDhcpLeaseDuration()
-    textMacAddress.text = connectivityNetwork.getMacAddress()
-    textConnectionType.text = connectivityNetwork.getNetworkClass()
-    textType.text = "Type: "
+  private fun setupNavigation() {
+    appBarConfiguration = AppBarConfiguration(
+      setOf(
+        R.id.navNetworkInfoFragment
+      ), drawerLayout
+    )
 
-    textSignal.text = ""
-    textSsid.text = wifiUtils.getSsid()
-    textBssid.text = wifiUtils.getBssid()
-    textSpeed.text = wifiUtils.getLinkSpeed()
-    textFrequency.text = "Frequency: ${wifiUtils.getFrequency()}"
-    textNetworkId.text = "Network Id: ${wifiUtils.getNetworkId()}"
+    setSupportActionBar(toolbar)
+    navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+    setupActionBarWithNavController(navController, appBarConfiguration)
+    navigationView.setupWithNavController(navController)
+    navigationView.setNavigationItemSelectedListener(this)
+  }
 
-    textDns1.text = getString(R.string.title_dns_one, dhcpUtils.getDnsOne())
-    textDns2.text = getString(R.string.title_dns_two, dhcpUtils.getDnsTwo())
-    textMask.text = getString(R.string.title_mask, dhcpUtils.getNetmask())
+  private fun initViews() {
+
   }
 
   private fun startVpn() {

@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefresh"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_marginBottom="8dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.0">
+
+    <androidx.core.widget.NestedScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textInternalIpLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="8dp"
+          android:text="Internal Ip:"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textInternalIp"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginEnd="8dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@+id/textInternalIpLabel"
+          app:layout_constraintTop_toTopOf="@+id/textInternalIpLabel"
+          tools:text="192.168.0.1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textExternalIpLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="External Ip:"
+          app:layout_constraintStart_toStartOf="@+id/textInternalIpLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textInternalIpLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textExternalIp"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textInternalIp"
+          app:layout_constraintStart_toEndOf="@+id/textExternalIpLabel"
+          app:layout_constraintTop_toTopOf="@+id/textExternalIpLabel"
+          tools:text="185.10.120.35" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textMacAddressLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Mac Address:"
+          app:layout_constraintStart_toStartOf="@+id/textExternalIpLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textExternalIpLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textMacAddress"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textExternalIp"
+          app:layout_constraintStart_toEndOf="@+id/textMacAddressLabel"
+          app:layout_constraintTop_toTopOf="@+id/textMacAddressLabel"
+          tools:text="88:23:ff:333:fff3f" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textGatewayLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Gateway:"
+          app:layout_constraintStart_toStartOf="@+id/textMacAddressLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textMacAddressLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textGateway"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textMacAddress"
+          app:layout_constraintStart_toEndOf="@+id/textGatewayLabel"
+          app:layout_constraintTop_toTopOf="@+id/textGatewayLabel"
+          tools:text="187.8.8.22" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textConnectionTypeLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Connection Type:"
+          app:layout_constraintStart_toStartOf="@+id/textGatewayLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textGatewayLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textConnectionType"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textGateway"
+          app:layout_constraintStart_toEndOf="@+id/textConnectionTypeLabel"
+          app:layout_constraintTop_toTopOf="@+id/textConnectionTypeLabel"
+          tools:text="LTE" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textLeaseDurationLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Lease Duration:"
+          app:layout_constraintStart_toStartOf="@+id/textConnectionTypeLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textType" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textLeaseDuration"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textConnectionType"
+          app:layout_constraintStart_toEndOf="@+id/textLeaseDurationLabel"
+          app:layout_constraintTop_toTopOf="@+id/textLeaseDurationLabel"
+          tools:text="3600" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textSignalLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Signal"
+          app:layout_constraintStart_toStartOf="@+id/textLeaseDurationLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textLeaseDurationLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textSignal"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textLeaseDuration"
+          app:layout_constraintStart_toEndOf="@+id/textSignalLabel"
+          app:layout_constraintTop_toTopOf="@+id/textSignalLabel"
+          tools:text="-43dbm" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textSsidLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="SSID"
+          app:layout_constraintStart_toStartOf="@+id/textSignalLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textSignalLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textSsid"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textSignal"
+          app:layout_constraintStart_toEndOf="@+id/textSsidLabel"
+          app:layout_constraintTop_toTopOf="@+id/textSsidLabel"
+          tools:text="Wittgenstein" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textBssidLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="BSSID"
+          app:layout_constraintStart_toStartOf="@+id/textSsidLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textSsidLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textBssid"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textSsid"
+          app:layout_constraintStart_toEndOf="@+id/textBssidLabel"
+          app:layout_constraintTop_toTopOf="@+id/textBssidLabel"
+          tools:text="a0:f4:f4:f4:f4" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textSpeedLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Speed"
+          app:layout_constraintStart_toStartOf="@+id/textBssidLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textBssidLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textSpeed"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textBssid"
+          app:layout_constraintStart_toEndOf="@+id/textSpeedLabel"
+          app:layout_constraintTop_toTopOf="@+id/textSpeedLabel"
+          tools:text="54 Mbps" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textDns1"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textSpeed"
+          app:layout_constraintStart_toStartOf="@+id/textSpeedLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textFrequency"
+          tools:text="Dns 1: 81.81.2.2." />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textDns2"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textDns1"
+          app:layout_constraintStart_toStartOf="@+id/textDns1"
+          app:layout_constraintTop_toBottomOf="@+id/textDns1"
+          tools:text="Dns 2: 81.23.22.2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textMask"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textDns2"
+          app:layout_constraintStart_toStartOf="@+id/textDns2"
+          app:layout_constraintTop_toBottomOf="@+id/textDns2"
+          tools:text="Mask: 0.0.0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textCity"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textMask"
+          app:layout_constraintStart_toStartOf="@+id/textMask"
+          app:layout_constraintTop_toBottomOf="@+id/textMask"
+          tools:text="City: test" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textRegion"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textCity"
+          app:layout_constraintStart_toStartOf="@+id/textCity"
+          app:layout_constraintTop_toBottomOf="@+id/textCity"
+          tools:text="Region: test" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textCountry"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textRegion"
+          app:layout_constraintStart_toStartOf="@+id/textRegion"
+          app:layout_constraintTop_toBottomOf="@+id/textRegion"
+          tools:text="Country: test" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textLatitude"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textCountry"
+          app:layout_constraintStart_toStartOf="@+id/textCountry"
+          app:layout_constraintTop_toBottomOf="@+id/textCountry"
+          tools:text="Latitude: 29.333" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textLongitude"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textLatitude"
+          app:layout_constraintStart_toStartOf="@+id/textLatitude"
+          app:layout_constraintTop_toBottomOf="@+id/textLatitude"
+          tools:text="Longitude: 99.99.99" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textIsp"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          app:layout_constraintEnd_toEndOf="@+id/textLongitude"
+          app:layout_constraintStart_toStartOf="@+id/textLongitude"
+          app:layout_constraintTop_toBottomOf="@+id/textLongitude"
+          tools:text="ISP: test" />
+
+        <TextView
+          android:id="@+id/textType"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Type: "
+          app:layout_constraintEnd_toEndOf="@+id/textConnectionType"
+          app:layout_constraintStart_toStartOf="@+id/textConnectionTypeLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textConnectionTypeLabel"
+          tools:text="Type: WIfi" />
+
+        <TextView
+          android:id="@+id/textFrequency"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Frequency:"
+          app:layout_constraintEnd_toEndOf="@+id/textSpeed"
+          app:layout_constraintStart_toStartOf="@+id/textSpeedLabel"
+          app:layout_constraintTop_toBottomOf="@+id/textSpeedLabel" />
+
+        <TextView
+          android:id="@+id/textNetworkId"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Network Id:"
+          app:layout_constraintEnd_toEndOf="@+id/textIsp"
+          app:layout_constraintStart_toStartOf="@+id/textIsp"
+          app:layout_constraintTop_toBottomOf="@+id/textIsp" />
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
