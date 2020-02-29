@@ -140,9 +140,8 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
 
   private fun getNetworkType(): String {
     var networkType: String = NOT_CONNECTED
-    val connectivityManager = context.getConnectivityManager()
-    val activeNetwork = connectivityManager?.activeNetworkInfo
-    if (activeNetwork != null) { // connected to the internet
+    val activeNetwork = context.getConnectivityManager()?.activeNetworkInfo
+    if (activeNetwork != null) {
       if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
         networkType = WIFI
       } else if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE) {

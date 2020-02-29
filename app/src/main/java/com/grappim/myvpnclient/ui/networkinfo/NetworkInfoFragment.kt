@@ -11,7 +11,7 @@ import com.grappim.myvpnclient.R
 import com.grappim.myvpnclient.core.utils.ConnectivityNetwork
 import com.grappim.myvpnclient.core.utils.DhcpUtils
 import com.grappim.myvpnclient.core.utils.WifiUtils
-import com.grappim.myvpnclient.core.utils.doOnInternet
+import com.grappim.myvpnclient.core.extensions.doOnInternet
 import com.grappim.myvpnclient.entities.IpEntity
 import kotlinx.android.synthetic.main.fragment_network_info.*
 import org.koin.android.ext.android.inject

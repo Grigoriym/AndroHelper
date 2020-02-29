@@ -1,8 +1,11 @@
 package com.grappim.myvpnclient.core.utils
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Build
-import java.net.*
+import java.net.Inet4Address
+import java.net.NetworkInterface
+import java.net.SocketException
 
 object NetworkTest {
 
@@ -59,7 +62,8 @@ object NetworkTest {
    * @return true if connected to network
    */
   fun isConnected(context: Context): Boolean {
-    val activeNetworkInfo = context.networkInfo
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+    val activeNetworkInfo = cm?.activeNetworkInfo
     return activeNetworkInfo != null && activeNetworkInfo.isConnected
   }
 
