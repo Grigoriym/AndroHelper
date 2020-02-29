@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
   private fun displaySelectedScreen(itemId: Int): Boolean {
     when (itemId) {
       R.id.navMenuNetworkInfo -> navController.navigate(R.id.navNetworkInfoFragment)
+      R.id.navMenuVpn -> navController.navigate(R.id.navVpnFragment)
     }
     drawerLayout.closeDrawer(GravityCompat.START)
     return true
@@ -103,7 +104,8 @@ class MainActivity : AppCompatActivity(), MainContract.View,
   private fun setupNavigation() {
     appBarConfiguration = AppBarConfiguration(
       setOf(
-        R.id.navNetworkInfoFragment
+        R.id.navNetworkInfoFragment,
+        R.id.navVpnFragment
       ), drawerLayout
     )
 
