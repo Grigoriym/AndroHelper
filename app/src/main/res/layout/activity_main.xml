@@ -329,6 +329,16 @@
           app:layout_constraintStart_toStartOf="@+id/textSpeedLabel"
           app:layout_constraintTop_toBottomOf="@+id/textSpeedLabel" />
 
+        <TextView
+          android:id="@+id/textNetworkId"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Network Id:"
+          app:layout_constraintEnd_toEndOf="@+id/textIsp"
+          app:layout_constraintStart_toStartOf="@+id/textIsp"
+          app:layout_constraintTop_toBottomOf="@+id/textIsp" />
+
       </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

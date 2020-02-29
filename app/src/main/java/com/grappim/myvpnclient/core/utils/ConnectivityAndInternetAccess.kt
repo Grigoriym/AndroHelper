@@ -47,7 +47,7 @@
 Forked from https://gist.github.com/str4d/22cac7a3f70bc227cdca, which was forked from https://gist.github.com/emil2k/5130324*/
 @file:Suppress("DEPRECATION")
 
-package com.grappim.myvpnclient.utils
+package com.grappim.myvpnclient.core.utils
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi

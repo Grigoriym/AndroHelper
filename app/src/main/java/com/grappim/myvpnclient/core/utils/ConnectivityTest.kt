@@ -1,4 +1,4 @@
-package com.grappim.myvpnclient.utils
+package com.grappim.myvpnclient.core.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

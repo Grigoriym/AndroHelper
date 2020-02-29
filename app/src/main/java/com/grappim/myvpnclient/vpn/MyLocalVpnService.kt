@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.net.VpnService
 import android.os.ParcelFileDescriptor
-import com.grappim.myvpnclient.utils.ConnectivityNetwork
+import com.grappim.myvpnclient.core.utils.ConnectivityNetwork
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.selects.whileSelect

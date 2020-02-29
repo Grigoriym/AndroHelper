@@ -1,14 +1,8 @@
-package com.grappim.myvpnclient.utils
+package com.grappim.myvpnclient.core.utils
 
 import android.content.Context
-import android.content.Context.WIFI_SERVICE
-import android.net.DhcpInfo
-import android.net.wifi.WifiManager
 import android.os.Build
-import timber.log.Timber
-import java.math.BigInteger
 import java.net.*
-import java.nio.ByteOrder
 
 object NetworkTest {
 

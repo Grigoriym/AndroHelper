@@ -1,4 +1,4 @@
-package com.grappim.myvpnclient.utils
+package com.grappim.myvpnclient.core.utils
 
 import android.os.SystemClock
 import android.view.View

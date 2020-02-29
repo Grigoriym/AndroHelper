@@ -1,4 +1,4 @@
-package com.grappim.myvpnclient.utils
+package com.grappim.myvpnclient.core.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -7,8 +7,7 @@ import android.text.format.Formatter
 import com.grappim.myvpnclient.core.extensions.getConnectivityManager
 import com.grappim.myvpnclient.core.extensions.getWifiManager
 import java.net.Inet4Address
-import java.net.NetworkInterface.getNetworkInterfaces
-import java.util.*
+import java.net.NetworkInterface
 
 class ConnectivityNetwork internal constructor(private val context: Context) {
 
@@ -17,6 +16,22 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
     private const val CELLULAR = "cellular"
     private const val NOT_CONNECTED = "not_connected"
   }
+
+  /**
+   * https://stackoverflow.com/questions/10831578/how-to-find-mac-address-of-an-android-device-programmatically
+   */
+  fun getMacAddress(): String =
+    try {
+      NetworkInterface.getNetworkInterfaces()
+        .toList()
+        .find { it.name.equals(WLAN_0, true) }
+        ?.hardwareAddress
+        ?.joinToString(separator = ":") { byte -> "%02X".format(byte) }
+        ?: DEFAULT_MAC_ADDRESS
+    } catch (e: Exception) {
+      e.printStackTrace()
+      DEFAULT_MAC_ADDRESS
+    }
 
   fun getInternalIpAddress(): String? {
     return when (getNetworkType()) {
@@ -30,26 +45,6 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
         NOT_CONNECTED
       }
     }
-  }
-
-  fun getMacAddress(): String {
-    try {
-      val all = Collections.list(getNetworkInterfaces())
-      for (nif in all) {
-        if (!nif.name.equals("wlan0", ignoreCase = true)) continue
-        val macBytes = nif.hardwareAddress ?: return ""
-        val res1 = StringBuilder()
-        for (b in macBytes) {
-          res1.append(String.format("%02X:", b))
-        }
-        if (res1.isNotEmpty()) {
-          res1.deleteCharAt(res1.length - 1)
-        }
-        return res1.toString()
-      }
-    } catch (ex: Exception) {
-    }
-    return "02:00:00:00:00:00"
   }
 
   @Deprecated("Refactor it")
@@ -93,7 +88,7 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
   }
 
   private fun getMobileInternalIpAddress(): String? {
-    val en = getNetworkInterfaces()
+    val en = NetworkInterface.getNetworkInterfaces()
     while (en.hasMoreElements()) {
       val intf = en.nextElement()
       val enumIpAddr = intf.inetAddresses
@@ -104,7 +99,7 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
         }
       }
     }
-    return null
+    return DEFAULT_IP_ADDRESS
   }
 
   private fun getWifiInternalIpAddress(): String? {
@@ -112,12 +107,12 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
     try {
       val wm = context.getWifiManager()
       ip = Formatter.formatIpAddress(wm?.connectionInfo?.ipAddress!!)
-    } catch (e: java.lang.Exception) {
+    } catch (e: Exception) {
 
     }
     if (ip.isEmpty()) {
       try {
-        val en = getNetworkInterfaces()
+        val en = NetworkInterface.getNetworkInterfaces()
         while (en.hasMoreElements()) {
           val networkInterface = en.nextElement()
           val enumIpAddr = networkInterface.inetAddresses
@@ -133,7 +128,7 @@ class ConnectivityNetwork internal constructor(private val context: Context) {
           }
 
         }
-      } catch (e: java.lang.Exception) {
+      } catch (e: Exception) {
 
       }
     }

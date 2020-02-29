@@ -1,4 +1,4 @@
-package com.grappim.myvpnclient.utils
+package com.grappim.myvpnclient.core.utils
 
 import android.content.Context
 import com.grappim.myvpnclient.core.extensions.getDhcpInfo
@@ -37,7 +37,7 @@ class DhcpUtils internal constructor(private val context: Context) {
         Timber.d("Error getting Dhcp Gateway IP address ")
       }
     }
-    return "0.0.0.0"
+    return DEFAULT_IP_ADDRESS
   }
 
   /**
@@ -57,9 +57,9 @@ class DhcpUtils internal constructor(private val context: Context) {
       return try {
         InetAddress.getByAddress(addressBytes).hostAddress
       } catch (e: UnknownHostException) {
-        "0.0.0.0"
+        DEFAULT_IP_ADDRESS
       }
     }
-    return "0.0.0.0"
+    return DEFAULT_IP_ADDRESS
   }
 }

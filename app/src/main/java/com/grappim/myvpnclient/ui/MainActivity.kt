@@ -13,9 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.grappim.myvpnclient.R
-import com.grappim.myvpnclient.core.extensions.getWifiManager
 import com.grappim.myvpnclient.entities.IpEntity
-import com.grappim.myvpnclient.utils.*
+import com.grappim.myvpnclient.core.utils.*
 import com.grappim.myvpnclient.vpn.MyLocalVpnService
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
@@ -139,6 +138,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     textBssid.text = wifiUtils.getBssid()
     textSpeed.text = wifiUtils.getLinkSpeed()
     textFrequency.text = "Frequency: ${wifiUtils.getFrequency()}"
+    textNetworkId.text = "Network Id: ${wifiUtils.getNetworkId()}"
 
     textDns1.text = getString(R.string.title_dns_one, dhcpUtils.getDnsOne())
     textDns2.text = getString(R.string.title_dns_two, dhcpUtils.getDnsTwo())

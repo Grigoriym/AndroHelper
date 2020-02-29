@@ -1,4 +1,4 @@
-package com.grappim.myvpnclient.utils
+package com.grappim.myvpnclient.core.utils
 
 import android.Manifest
 import android.content.Context
@@ -9,6 +9,8 @@ import androidx.annotation.RequiresPermission
 import com.grappim.myvpnclient.core.extensions.getWifiManager
 
 class WifiUtils internal constructor(private val context: Context) {
+
+  private val connectionInfo = context.getWifiManager()?.connectionInfo
 
   @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
   fun getSsid(): String? {
@@ -23,28 +25,25 @@ class WifiUtils internal constructor(private val context: Context) {
   @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
   fun getBssid(): String {
     var bSsid = "<unknown bssid>"
-    val wifiInfo = context.getWifiManager()?.connectionInfo
-    if (wifiInfo?.supplicantState == SupplicantState.COMPLETED) {
-      bSsid = wifiInfo.bssid
+    if (connectionInfo?.supplicantState == SupplicantState.COMPLETED) {
+      bSsid = connectionInfo.bssid
     }
     return bSsid
   }
 
-  fun getLinkSpeed(): String {
-    val wifiInfo = context.getWifiManager()?.connectionInfo
-    return "${wifiInfo?.linkSpeed ?: "N/A"}"
-  }
+  fun getLinkSpeed(): String = "${connectionInfo?.linkSpeed ?: N_A}"
+
+  fun getNetworkId(): String = "${connectionInfo?.networkId ?: N_A}"
 
   fun getFrequency(): String {
     return if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-      val info = context.getWifiManager()?.connectionInfo
-      info?.frequency?.let {
-        "${info.frequency} ${WifiInfo.FREQUENCY_UNITS}"
+      connectionInfo?.frequency?.let {
+        "${connectionInfo.frequency} ${WifiInfo.FREQUENCY_UNITS}"
       } ?: let {
-        "N/A"
+        N_A
       }
     } else {
-      "N/A"
+      N_A
     }
   }
 
