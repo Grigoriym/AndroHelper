@@ -27,9 +27,6 @@ class NetworkInfoFragment : Fragment(), NetworkInfoContract.View {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     presenter.setView(this)
-    arguments?.let {
-
-    }
   }
 
   override fun onCreateView(
