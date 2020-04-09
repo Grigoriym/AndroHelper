@@ -307,7 +307,7 @@
           app:layout_constraintTop_toBottomOf="@+id/textLongitude"
           tools:text="ISP: test" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
           android:id="@+id/textType"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
@@ -318,7 +318,7 @@
           app:layout_constraintTop_toBottomOf="@+id/textConnectionTypeLabel"
           tools:text="Type: WIfi" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
           android:id="@+id/textFrequency"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
@@ -328,7 +328,7 @@
           app:layout_constraintStart_toStartOf="@+id/textSpeedLabel"
           app:layout_constraintTop_toBottomOf="@+id/textSpeedLabel" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
           android:id="@+id/textNetworkId"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
@@ -337,6 +337,16 @@
           app:layout_constraintEnd_toEndOf="@+id/textIsp"
           app:layout_constraintStart_toStartOf="@+id/textIsp"
           app:layout_constraintTop_toBottomOf="@+id/textIsp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/textImei"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Imei:"
+          app:layout_constraintEnd_toEndOf="@+id/textNetworkId"
+          app:layout_constraintStart_toStartOf="@+id/textNetworkId"
+          app:layout_constraintTop_toBottomOf="@+id/textNetworkId" />
 
       </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,17 +1,18 @@
 package com.grappim.myvpnclient.ui.networkinfo
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.grappim.myvpnclient.R
-import com.grappim.myvpnclient.core.utils.ConnectivityNetwork
-import com.grappim.myvpnclient.core.utils.DhcpUtils
-import com.grappim.myvpnclient.core.utils.WifiUtils
 import com.grappim.myvpnclient.core.extensions.doOnInternet
+import com.grappim.myvpnclient.core.utils.*
 import com.grappim.myvpnclient.entities.IpEntity
 import kotlinx.android.synthetic.main.fragment_network_info.*
 import org.koin.android.ext.android.inject
@@ -55,6 +56,20 @@ class NetworkInfoFragment : Fragment(), NetworkInfoContract.View {
     textExternalIp.text = "0"
   }
 
+  override fun onRequestPermissionsResult(
+    requestCode: Int,
+    permissions: Array<out String>,
+    grantResults: IntArray
+  ) {
+    when (requestCode) {
+      REQUEST_CODE_READ_PHONE_STATE -> {
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          setImei()
+        }
+      }
+    }
+  }
+
   @SuppressLint("MissingPermission")
   private fun refreshData() {
     requireContext().doOnInternet({
@@ -64,6 +79,7 @@ class NetworkInfoFragment : Fragment(), NetworkInfoContract.View {
       Toast.makeText(requireContext(), "Internet not Connected", Toast.LENGTH_SHORT).show()
     })
 
+    setImei()
     textInternalIp.text = connectivityNetwork.getInternalIpAddress()
     textGateway.text = dhcpUtils.getDhcpGateway()
     textLeaseDuration.text = dhcpUtils.getDhcpLeaseDuration()
@@ -87,6 +103,18 @@ class NetworkInfoFragment : Fragment(), NetworkInfoContract.View {
     swipeRefresh.setOnRefreshListener {
       refreshData()
       swipeRefresh.isRefreshing = false
+    }
+  }
+
+  private fun setImei() {
+    if (GeneralUtils.checkReadPhoneStatePermission(requireContext())) {
+      textImei.text = GeneralUtils.getImei(requireContext())
+    } else {
+      ActivityCompat.requestPermissions(
+        requireActivity(),
+        arrayOf(Manifest.permission.READ_PHONE_STATE),
+        REQUEST_CODE_READ_PHONE_STATE
+      )
     }
   }
 
