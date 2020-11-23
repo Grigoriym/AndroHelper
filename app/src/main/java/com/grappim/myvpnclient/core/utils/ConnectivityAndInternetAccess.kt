@@ -62,6 +62,7 @@ import android.os.Build.VERSION_CODES
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.util.Log
+import timber.log.Timber
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
@@ -245,11 +246,11 @@ class ConnectivityAndInternetAccess(hosts: ArrayList<String>) {
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
       if (Build.VERSION.SDK_INT >= VERSION_CODES.P) {
         val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-        if (!networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_FOREGROUND)) {
+        if (networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_FOREGROUND) == false) {
           isNetworkFacilitatingFastNetworkSwitching = true
         }
       } else {
-        Log.e("UnusableMethod", null)
+        Timber.e("UnusableMethod")
       }
       return isNetworkFacilitatingFastNetworkSwitching
     }
@@ -266,11 +267,11 @@ class ConnectivityAndInternetAccess(hosts: ArrayList<String>) {
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
       if (Build.VERSION.SDK_INT >= VERSION_CODES.P) {
         val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-        if (networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_FOREGROUND)) {
+        if (networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_FOREGROUND) == true) {
           isNetworkUsableByApps = true
         }
       } else {
-        Log.e("UnusableMethod", null)
+        Timber.e("UnusableMethod")
       }
       return isNetworkUsableByApps
     }
@@ -281,11 +282,11 @@ class ConnectivityAndInternetAccess(hosts: ArrayList<String>) {
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
       if (Build.VERSION.SDK_INT >= VERSION_CODES.P) {
         val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-        if (!networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED)) {
+        if (networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED) == false) {
           isNetworkSuspended = true
         }
       } else {
-        Log.e("UnusableMethod", null)
+        Timber.e("UnusableMethod")
       }
       return isNetworkSuspended
     }
@@ -348,10 +349,10 @@ class ConnectivityAndInternetAccess(hosts: ArrayList<String>) {
               }
             }
           } else {
-            Log.e("NullNetworkCapabilities", null)
+            Timber.e("NullNetworkCapabilities")
           }
         } else {
-          Log.e("NullNetwork", null)
+          Timber.e("NullNetwork")
         }
       } else {
         val info = getActiveNetworkInfo(context)
@@ -398,16 +399,14 @@ class ConnectivityAndInternetAccess(hosts: ArrayList<String>) {
           }
         } else {
           if (Build.VERSION.SDK_INT >= VERSION_CODES.M) {
-            if (networkCapabilities
-                .hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) /*API >= 21*/
-              && networkCapabilities!!.hasCapability(
+            if (networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true /*API >= 21*/
+              && networkCapabilities.hasCapability(
                 NetworkCapabilities.NET_CAPABILITY_VALIDATED
               ) /*API >= 23*/) {
               isConnected = true
             }
           } else {
-            if (networkCapabilities
-                .hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) /*API >= 21*/) {
+            if (networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true /*API >= 21*/) {
               isConnected = true
             }
           }
@@ -475,10 +474,10 @@ class ConnectivityAndInternetAccess(hosts: ArrayList<String>) {
                 }
               }
             } else {
-              Log.e("NullNetworkCapabilities", null)
+              Timber.e("NullNetworkCapabilities")
             }
           } else {
-            Log.e("NullNetwork", null)
+            Timber.e("NullNetwork")
           }
         }
       } else {
@@ -576,10 +575,10 @@ class ConnectivityAndInternetAccess(hosts: ArrayList<String>) {
                 }
               }
             } else {
-              Log.e("NullNetworkCapabilities", null)
+              Timber.e("NullNetworkCapabilities")
             }
           } else {
-            Log.e("NullNetwork", null)
+            Timber.e("NullNetwork")
           }
         }
       } else {

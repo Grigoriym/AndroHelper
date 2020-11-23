@@ -1,18 +1,15 @@
 package com.grappim.myvpnclient
 
 import androidx.multidex.MultiDexApplication
-import com.grappim.myvpnclient.di.mixModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class MyVpnApplication : MultiDexApplication() {
-  override fun onCreate() {
-    super.onCreate()
-    startKoin {
-      androidContext(this@MyVpnApplication)
-      modules(listOf(mixModule))
+
+    override fun onCreate() {
+        super.onCreate()
+        Timber.plant(Timber.DebugTree())
     }
-    Timber.plant(Timber.DebugTree())
-  }
+    
 }

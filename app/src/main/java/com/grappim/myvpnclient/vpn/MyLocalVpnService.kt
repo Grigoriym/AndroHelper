@@ -8,7 +8,6 @@ import com.grappim.myvpnclient.core.utils.ConnectivityNetwork
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.selects.whileSelect
-import org.koin.android.ext.android.inject
 import org.pcap4j.packet.IpV4Packet
 import org.pcap4j.packet.namednumber.IpNumber
 import timber.log.Timber
@@ -27,7 +26,6 @@ class MyLocalVpnService : VpnService() {
   private val inputChannel = Channel<IpV4Packet>()
 
   private var vpnInterface: ParcelFileDescriptor? = null
-  private val connectivityNetwork: ConnectivityNetwork by inject()
 
   private var udpVpnService: UdpVpnService? = null
   private var tcpVpnService: TcpVpnService? = null
