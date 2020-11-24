@@ -1,7 +1,7 @@
 package com.grappim.myvpnclient.api
 
 import com.grappim.myvpnclient.BuildConfig
-import com.grappim.myvpnclient.entities.IpEntity
+import com.grappim.myvpnclient.entities.IpEntityDTO
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,6 +11,6 @@ interface IpifyApi {
     suspend fun getExternalIp(
         @Query("apiKey") apiKey: String = BuildConfig.IpifyApiKey,
         @Query("format") format: String = "json"
-    ): IpEntity
+    ): IpEntityDTO
 
 }

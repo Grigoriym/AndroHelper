@@ -2,7 +2,7 @@ package com.grappim.myvpnclient.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class IpEntity(
+data class IpEntityDTO(
 
   @SerializedName("as")
   val asX: As?,

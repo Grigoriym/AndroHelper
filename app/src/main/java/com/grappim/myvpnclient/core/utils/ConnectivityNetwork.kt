@@ -24,6 +24,16 @@ class ConnectivityNetwork @Inject constructor(
         private const val NOT_CONNECTED = "not_connected"
     }
 
+    fun isVpnConnected(): Boolean {
+        connectivityManager.allNetworks.forEach {
+            val nc = connectivityManager.getNetworkCapabilities(it)
+            if (nc != null && nc.hasTransport(NetworkCapabilities.TRANSPORT_VPN)) {
+                return true
+            }
+        }
+        return false
+    }
+
     /**
      * https://stackoverflow.com/questions/10831578/how-to-find-mac-address-of-an-android-device-programmatically
      */
@@ -149,7 +159,7 @@ class ConnectivityNetwork @Inject constructor(
         var networkType: String = NOT_CONNECTED
         val cm = connectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val an = cm?.activeNetwork
+            val an = cm.activeNetwork
             an?.let {
                 val nc = cm.getNetworkCapabilities(it) ?: return NOT_CONNECTED
                 networkType = when {

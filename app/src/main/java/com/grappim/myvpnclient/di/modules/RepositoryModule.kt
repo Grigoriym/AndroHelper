@@ -10,8 +10,10 @@ import dagger.hilt.android.components.ApplicationComponent
 @InstallIn(ApplicationComponent::class)
 @Module
 abstract class RepositoryModule {
+
     @Binds
     abstract fun bindsNetworkRepository(
         networkRepositoryImpl: NetworkRepositoryImpl
     ): NetworkRepository
+
 }

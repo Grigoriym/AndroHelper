@@ -10,13 +10,14 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.grappim.myvpnclient.R
-import com.grappim.myvpnclient.core.extensions.doOnInternet
+import com.grappim.myvpnclient.core.functional.Resource
 import com.grappim.myvpnclient.core.utils.ConnectivityNetwork
+import com.grappim.myvpnclient.core.utils.DEFAULT_IP_ADDRESS
 import com.grappim.myvpnclient.core.utils.DhcpUtils
 import com.grappim.myvpnclient.core.utils.GeneralUtils
 import com.grappim.myvpnclient.core.utils.REQUEST_CODE_READ_PHONE_STATE
 import com.grappim.myvpnclient.core.utils.WifiUtils
-import com.grappim.myvpnclient.entities.IpEntity
+import com.grappim.myvpnclient.entities.IpEntityDTO
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_network_info.swipeRefresh
 import kotlinx.android.synthetic.main.fragment_network_info.textBssid
@@ -60,27 +61,36 @@ class NetworkInfoFragment : Fragment(R.layout.fragment_network_info) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.externalIp.observe(
-            viewLifecycleOwner
-        ) {
-            getFullIpInformationSuccess(it)
-        }
+        viewModel.externalIp.observe(viewLifecycleOwner, ::showIpInformation)
         initViews()
         refreshData()
     }
 
-    fun getFullIpInformationSuccess(ipEntity: IpEntity) {
-        textExternalIp.text = ipEntity.ip
-        textCity.text = getString(R.string.title_city, ipEntity.location?.city)
-        textRegion.text = getString(R.string.title_region, ipEntity.location?.region)
-        textCountry.text = getString(R.string.title_country, ipEntity.location?.country)
-        textLatitude.text = getString(R.string.title_latitude, ipEntity.location?.lat?.toString())
-        textLongitude.text = getString(R.string.title_longitude, ipEntity.location?.lng?.toString())
-        textIsp.text = getString(R.string.title_isp, ipEntity.isp)
-    }
-
-    fun getFullIpInformationFailure() {
-        textExternalIp.text = "0"
+    private fun showIpInformation(resource: Resource<IpEntityDTO>) {
+        when (resource) {
+            is Resource.Error -> {
+                textExternalIp.text = getString(
+                    R.string.title_external_ip,
+                    DEFAULT_IP_ADDRESS
+                )
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+            }
+            is Resource.Success -> {
+                val ipEntityDTO = resource.data
+                textExternalIp.text = getString(
+                    R.string.title_external_ip,
+                    ipEntityDTO.ip
+                )
+                textCity.text = getString(R.string.title_city, ipEntityDTO.location?.city)
+                textRegion.text = getString(R.string.title_region, ipEntityDTO.location?.region)
+                textCountry.text = getString(R.string.title_country, ipEntityDTO.location?.country)
+                textLatitude.text =
+                    getString(R.string.title_latitude, ipEntityDTO.location?.lat?.toString())
+                textLongitude.text =
+                    getString(R.string.title_longitude, ipEntityDTO.location?.lng?.toString())
+                textIsp.text = getString(R.string.title_isp, ipEntityDTO.isp)
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -99,15 +109,13 @@ class NetworkInfoFragment : Fragment(R.layout.fragment_network_info) {
 
     @SuppressLint("MissingPermission")
     private fun refreshData() {
-        requireContext().doOnInternet({
-            viewModel.getExternalIp()
-        }, {
-            getFullIpInformationFailure()
-            Toast.makeText(requireContext(), "Internet not Connected", Toast.LENGTH_SHORT).show()
-        })
+        viewModel.getExternalIp()
 
         setImei()
-        textInternalIp.text = connectivityNetwork.getInternalIpAddress()
+        textInternalIp.text = getString(
+            R.string.title_internal_ip,
+            connectivityNetwork.getInternalIpAddress()
+        )
         textGateway.text = dhcpUtils.getDhcpGateway()
         textLeaseDuration.text = dhcpUtils.getDhcpLeaseDuration()
         textMacAddress.text = connectivityNetwork.getMacAddress()
@@ -118,8 +126,14 @@ class NetworkInfoFragment : Fragment(R.layout.fragment_network_info) {
         textSsid.text = wifiUtils.getSsid()
         textBssid.text = wifiUtils.getBssid()
         textSpeed.text = wifiUtils.getLinkSpeed()
-        textFrequency.text = "Frequency: ${wifiUtils.getFrequency()}"
-        textNetworkId.text = "Network Id: ${wifiUtils.getNetworkId()}"
+        textFrequency.text = getString(
+            R.string.title_frequency,
+            wifiUtils.getFrequency()
+        )
+        textNetworkId.text = getString(
+            R.string.title_network_id,
+            wifiUtils.getNetworkId()
+        )
 
         textDns1.text = getString(R.string.title_dns_one, dhcpUtils.getDnsOne())
         textDns2.text = getString(R.string.title_dns_two, dhcpUtils.getDnsTwo())
