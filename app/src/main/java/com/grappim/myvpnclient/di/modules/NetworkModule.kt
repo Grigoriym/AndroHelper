@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.DhcpInfo
 import android.net.wifi.WifiManager
+import android.telephony.TelephonyManager
 import androidx.core.content.ContextCompat
 import com.grappim.myvpnclient.BuildConfig
 import com.grappim.myvpnclient.api.IpifyApi
@@ -39,6 +40,13 @@ object NetworkModule {
         @ApplicationContext context: Context
     ): ConnectivityManager =
         ContextCompat.getSystemService(context, ConnectivityManager::class.java)!!
+
+    @Provides
+    @Singleton
+    fun provideTelephonyManager(
+        @ApplicationContext context: Context
+    ): TelephonyManager =
+        ContextCompat.getSystemService(context, TelephonyManager::class.java)!!
 
     @Provides
     @Singleton
