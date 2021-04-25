@@ -1,7 +1,8 @@
-package com.grappim.androHelper.ui.networkinfo
+package com.grappim.androHelper.domain.ip
 
 import com.grappim.androHelper.core.functional.Either
-import com.grappim.androHelper.entities.IpEntityDTO
+import com.grappim.androHelper.data.remote.model.ip.IpEntityDTO
+import com.grappim.androHelper.domain.repository.NetworkRepository
 import javax.inject.Inject
 
 class GetIpUseCase @Inject constructor(

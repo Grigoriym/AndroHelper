@@ -17,7 +17,7 @@ import com.grappim.androHelper.core.utils.DhcpUtils
 import com.grappim.androHelper.core.utils.GeneralUtils
 import com.grappim.androHelper.core.utils.REQUEST_CODE_READ_PHONE_STATE
 import com.grappim.androHelper.core.utils.WifiUtils
-import com.grappim.androHelper.entities.IpEntityDTO
+import com.grappim.androHelper.data.remote.model.ip.IpEntityDTO
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_network_info.swipeRefresh
 import kotlinx.android.synthetic.main.fragment_network_info.textBssid

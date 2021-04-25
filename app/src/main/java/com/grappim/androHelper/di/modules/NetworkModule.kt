@@ -8,9 +8,6 @@ import android.telephony.TelephonyManager
 import androidx.core.content.ContextCompat
 import com.grappim.androHelper.BuildConfig
 import com.grappim.androHelper.api.IpifyApi
-import com.grappim.androHelper.di.qualifiers.HttpLoggingInterceptorQualifier
-import com.grappim.androHelper.di.qualifiers.IpifyApiQualifier
-import com.grappim.androHelper.di.qualifiers.IpifyRetrofit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +19,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+annotation class IpifyApiQualifier
+
+@Qualifier
+annotation class IpifyRetrofit
+
+@Qualifier
+annotation class HttpLoggingInterceptorQualifier
 
 @Module
 @InstallIn(SingletonComponent::class)

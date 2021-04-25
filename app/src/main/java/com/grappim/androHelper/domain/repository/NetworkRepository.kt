@@ -1,7 +1,7 @@
-package com.grappim.androHelper.ui.networkinfo
+package com.grappim.androHelper.domain.repository
 
 import com.grappim.androHelper.core.functional.Either
-import com.grappim.androHelper.entities.IpEntityDTO
+import com.grappim.androHelper.data.remote.model.ip.IpEntityDTO
 
 interface NetworkRepository {
 

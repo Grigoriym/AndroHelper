@@ -1,0 +1,43 @@
+ext {
+
+    versions = [
+
+            minSdk             : 21,
+            compileSdk         : 30,
+
+            core               : '1.3.2',
+            appcompat          : '1.2.0',
+            constraint         : '2.0.4',
+
+            gradlePlugin       : '4.1.0',
+
+            workManager        : '2.5.0',
+
+            navigation         : '2.3.5',
+            lifecycle          : '2.3.1',
+
+            kotlin             : '1.4.32',
+            coroutines         : '1.4.3',
+            kotlinSerialization: '1.0.1',
+
+            retrofit           : '2.9.0',
+            okhttp             : '4.9.1',
+
+            hilt               : '2.33-beta',
+            hiltAndroidX       : '1.0.0-beta01',
+
+            dagger2            : '2.33',
+
+            gson               : '2.8.6',
+
+            material           : '1.3.0',
+
+            timber             : '4.7.1',
+
+            chucker            : '3.4.0',
+
+            startup            : '1.0.0',
+
+            flowbinding        : "1.0.0"
+    ]
+}

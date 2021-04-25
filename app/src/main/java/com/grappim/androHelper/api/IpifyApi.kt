@@ -1,7 +1,7 @@
 package com.grappim.androHelper.api
 
 import com.grappim.androHelper.BuildConfig
-import com.grappim.androHelper.entities.IpEntityDTO
+import com.grappim.androHelper.data.remote.model.ip.IpEntityDTO
 import retrofit2.http.GET
 import retrofit2.http.Query
 

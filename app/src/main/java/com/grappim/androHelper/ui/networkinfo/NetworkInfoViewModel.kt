@@ -7,7 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.grappim.androHelper.core.functional.Resource
 import com.grappim.androHelper.core.functional.onFailure
 import com.grappim.androHelper.core.functional.onSuccess
-import com.grappim.androHelper.entities.IpEntityDTO
+import com.grappim.androHelper.domain.ip.GetIpUseCase
+import com.grappim.androHelper.data.remote.model.ip.IpEntityDTO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

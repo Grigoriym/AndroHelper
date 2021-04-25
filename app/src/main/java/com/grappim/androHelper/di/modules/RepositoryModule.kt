@@ -1,14 +1,14 @@
 package com.grappim.androHelper.di.modules
 
-import com.grappim.androHelper.ui.networkinfo.NetworkRepository
-import com.grappim.androHelper.ui.networkinfo.NetworkRepositoryImpl
+import com.grappim.androHelper.domain.repository.NetworkRepository
+import com.grappim.androHelper.data.repository.NetworkRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
     @Binds
