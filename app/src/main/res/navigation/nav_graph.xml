@@ -7,14 +7,8 @@
 
   <fragment
     android:id="@+id/navNetworkInfoFragment"
-    android:name="com.grappim.myvpnclient.ui.networkinfo.NetworkInfoFragment"
+    android:name="com.grappim.androHelper.ui.networkinfo.NetworkInfoFragment"
     android:label="Network Info"
     tools:layout="@layout/fragment_network_info" />
-
-  <fragment
-    android:id="@+id/navVpnFragment"
-    android:name="com.grappim.myvpnclient.ui.vpn.VpnFragment"
-    android:label="Vpn"
-    tools:layout="@layout/fragment_vpn" />
 
 </navigation>

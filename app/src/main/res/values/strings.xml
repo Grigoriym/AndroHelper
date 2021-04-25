@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">MyVpnClient</string>
+  <string name="app_name">AndroHelper</string>
 
   <string name="title_dns_one">DNS (1) address: %1$s</string>
   <string name="title_dns_two">DNS (2) address: %1$s</string>

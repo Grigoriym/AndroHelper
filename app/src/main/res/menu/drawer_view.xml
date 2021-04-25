@@ -6,7 +6,7 @@
     android:title="Network Info" />
 
   <item
-    android:id="@+id/navMenuVpn"
-    android:title="Vpn" />
+    android:id="@+id/navMenuPhoneInfo"
+    android:title="Phone Info" />
 
 </menu>
