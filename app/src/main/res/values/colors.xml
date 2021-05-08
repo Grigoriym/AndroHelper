@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="colorPrimary">#008577</color>
-  <color name="colorPrimaryDark">#00574B</color>
-  <color name="colorAccent">#D81B60</color>
+  <color name="colorPrimary">@color/frenchSkyBlue</color>
+  <color name="colorPrimaryDark">@color/glaucous</color>
+  <color name="colorAccent">@color/nonPhotoBlue</color>
+  
+  <color name="beauBlue">#CAE5ff</color>
+  <color name="nonPhotoBlue">#ACEDFF</color>
+  <color name="frenchSkyBlue">#89BBFE</color>
+  <color name="glaucous">#6F8AB7</color>
+  <color name="independence">#615D6C</color>
+
+  <color name="white">#FFFFFFFF</color>
 </resources>

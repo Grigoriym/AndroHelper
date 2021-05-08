@@ -9,9 +9,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraint"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
 //Java8 time and other
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'

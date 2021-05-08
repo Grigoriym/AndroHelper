@@ -2,6 +2,7 @@ package com.grappim.androHelper.ui
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.VpnService
@@ -31,6 +32,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main),
 
     companion object {
         const val LOCATION_PERMISSION_CODE = 9665
+
+        fun start(
+            context: Context
+        ) = context.startActivity(Intent(context, MainActivity::class.java))
     }
 
     private lateinit var navController: NavController

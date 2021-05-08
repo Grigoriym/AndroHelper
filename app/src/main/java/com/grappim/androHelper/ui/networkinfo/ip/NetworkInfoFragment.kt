@@ -1,15 +1,15 @@
-package com.grappim.androHelper.ui.networkinfo
+package com.grappim.androHelper.ui.networkinfo.ip
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.grappim.androHelper.R
+import com.grappim.androHelper.core.extensions.showToast
 import com.grappim.androHelper.core.functional.Resource
 import com.grappim.androHelper.core.utils.ConnectivityNetwork
 import com.grappim.androHelper.core.utils.DEFAULT_IP_ADDRESS
@@ -17,7 +17,7 @@ import com.grappim.androHelper.core.utils.DhcpUtils
 import com.grappim.androHelper.core.utils.GeneralUtils
 import com.grappim.androHelper.core.utils.REQUEST_CODE_READ_PHONE_STATE
 import com.grappim.androHelper.core.utils.WifiUtils
-import com.grappim.androHelper.data.remote.model.ip.IpEntityDTO
+import com.grappim.androHelper.domain.ip.GetIpUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_network_info.swipeRefresh
 import kotlinx.android.synthetic.main.fragment_network_info.textBssid
@@ -58,6 +58,9 @@ class NetworkInfoFragment : Fragment(R.layout.fragment_network_info) {
     lateinit var wifiUtils: WifiUtils
 
     private val viewModel: NetworkInfoViewModel by viewModels()
+    private val infoAdapter: NetworkInfoAdapter by lazy {
+        NetworkInfoAdapter()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,29 +69,29 @@ class NetworkInfoFragment : Fragment(R.layout.fragment_network_info) {
         refreshData()
     }
 
-    private fun showIpInformation(resource: Resource<IpEntityDTO>) {
+    private fun showIpInformation(resource: Resource<GetIpUseCase.IpInfo>) {
         when (resource) {
             is Resource.Error -> {
                 textExternalIp.text = getString(
                     R.string.title_external_ip,
                     DEFAULT_IP_ADDRESS
                 )
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                showToast(getString(R.string.ip_info_error))
             }
             is Resource.Success -> {
-                val ipEntityDTO = resource.data
+                val ipInfo = resource.data
                 textExternalIp.text = getString(
                     R.string.title_external_ip,
-                    ipEntityDTO.ip
+                    ipInfo.ip
                 )
-                textCity.text = getString(R.string.title_city, ipEntityDTO.location?.city)
-                textRegion.text = getString(R.string.title_region, ipEntityDTO.location?.region)
-                textCountry.text = getString(R.string.title_country, ipEntityDTO.location?.country)
+                textCity.text = getString(R.string.title_city, ipInfo.city)
+                textRegion.text = getString(R.string.title_region, ipInfo.region)
+                textCountry.text = getString(R.string.title_country, ipInfo.country)
                 textLatitude.text =
-                    getString(R.string.title_latitude, ipEntityDTO.location?.lat?.toString())
+                    getString(R.string.title_latitude, ipInfo.latitude.toString())
                 textLongitude.text =
-                    getString(R.string.title_longitude, ipEntityDTO.location?.lng?.toString())
-                textIsp.text = getString(R.string.title_isp, ipEntityDTO.isp)
+                    getString(R.string.title_longitude, ipInfo.longitude.toString())
+                textIsp.text = getString(R.string.title_isp, ipInfo.isp)
             }
         }
     }

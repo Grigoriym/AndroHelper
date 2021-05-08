@@ -2,7 +2,7 @@ package com.grappim.androHelper.data.remote.model.ip
 
 import com.google.gson.annotations.SerializedName
 
-data class IpEntityDTO(
+data class IpInfoDTO(
 
   @SerializedName("as")
   val asX: AsDTO?,
@@ -11,38 +11,38 @@ data class IpEntityDTO(
   val domains: List<String>?,
 
   @SerializedName("ip")
-  val ip: String?,
+  val ip: String,
 
   @SerializedName("isp")
-  val isp: String?,
+  val isp: String,
 
   @SerializedName("location")
-  val location: LocationDTO?
+  val location: LocationDTO
 
 )
 
 data class LocationDTO(
 
   @SerializedName("city")
-  val city: String?,
+  val city: String,
 
   @SerializedName("country")
-  val country: String?,
+  val country: String,
 
   @SerializedName("geonameId")
   val geonameId: Int?,
 
   @SerializedName("lat")
-  val lat: Double?,
+  val lat: Double,
 
   @SerializedName("lng")
-  val lng: Double?,
+  val lng: Double,
 
   @SerializedName("postalCode")
   val postalCode: String?,
 
   @SerializedName("region")
-  val region: String?,
+  val region: String,
 
   @SerializedName("timezone")
   val timezone: String?
